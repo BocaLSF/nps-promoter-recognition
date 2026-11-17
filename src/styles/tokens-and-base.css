@@ -1,0 +1,53 @@
+:root {
+  /* Anthropic / Claude Code Console Palette */
+  --anthro-bg: #F5F3EC;
+  --anthro-surface: #FAF9F5;
+  --anthro-card: #FFFFFF;
+  --anthro-warm-gray: #EFECE3;
+  --anthro-border: #E2DDD2;
+  --anthro-border-strong: #CEC7B8;
+  --anthro-ink: #141413;
+  --anthro-ink-muted: #66635B;
+  --anthro-ink-subtle: #918C81;
+  --anthro-clay: #D97757;
+  --anthro-clay-hover: #C46343;
+  --anthro-clay-soft: rgba(217, 119, 87, 0.12);
+  --anthro-sage: #4E8A63;
+  --anthro-amber: #C98A2C;
+
+  /* Claude Code Terminal Dark Palette */
+  --cc-bg: #181715;
+  --cc-surface: #21201C;
+  --cc-elevated: #2A2823;
+  --cc-border: #36332D;
+  --cc-text: #F2EFE9;
+  --cc-muted: #9E998E;
+  --cc-dim: #6E6A60;
+
+  /* Typography */
+  --font-serif: "Iowan Old Style", "Newsreader", "Georgia", "Songti SC", "STSong", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+  --font-geometric: "Avenir Next", "Futura", -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Menlo", "Monaco", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--anthro-bg);
+  color: var(--anthro-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: radial-gradient(rgba(20, 20, 19, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}

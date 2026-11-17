@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPS Promoter · Daily Recognition Studio</title>
+  <link rel="stylesheet" href="./src/styles/tokens-and-base.css" />
+  <link rel="stylesheet" href="./src/styles/poster-bauhaus.css" />
+  <link rel="stylesheet" href="./src/styles/console-anthropic.css" />
+</head>
+<body>
+
+  <!-- 1. FIRST SCREEN: PURE 16:9 RECOGNITION POSTER STAGE -->
+  <section class="stage-viewport" id="top-stage">
+    <div class="poster-frame-shell" id="poster-shell">
+      <div class="poster-canvas" id="poster-canvas" data-theme="bright" data-crop="sticker">
+        <div class="bauhaus-decor" aria-hidden="true">
+          <div class="bh-shape-tr-arc"></div>
+          <div class="bh-shape-tr-dot"></div>
+          <div class="bh-shape-bl-pill"></div>
+          <div class="bh-shape-bl-yellow"></div>
+          <div class="bh-shape-bl-bar"></div>
+          <div class="bh-shape-br-mint"></div>
+          <div class="bh-shape-br-ring"></div>
+          <div class="bh-shape-ml-tri"></div>
+        </div>
+
+        <header class="poster-header">
+          <div class="poster-brand-lockup">
+            <div class="bauhaus-trio-mark">
+              <span class="btm-circle"></span>
+              <span class="btm-square"></span>
+              <span class="btm-yellow"></span>
+            </div>
+            <div class="poster-nps-badge">
+              <span class="poster-nps-word" id="poster-main-word">NPS</span>
+              <span class="poster-promoter-pill" id="poster-sub-word">PROMOTER</span>
+            </div>
+          </div>
+
+          <div class="poster-date-stamp">
+            <span class="poster-date-dot"></span>
+            <span id="poster-date-display">2026.11.17</span>
+          </div>
+        </header>
+
+        <main class="poster-stage-body" id="poster-stage-body"></main>
+      </div>
+    </div>
+
+    <nav class="stage-dock" aria-label="Stage Quick Controls">
+      <span><span class="clay-spark">✻</span> 16:9 STAGE</span>
+      <span class="dock-divider"></span>
+      <a href="#console-dashboard">↓ 下滑打开控制台</a>
+      <span class="dock-divider"></span>
+      <button type="button" id="dock-fullscreen-btn" title="全屏投屏展示 (快捷键 F)">全屏 [F]</button>
+      <button type="button" id="dock-export-btn" title="导出高清 16:9 PNG 海报">导出 PNG</button>
+    </nav>
+  </section>
+
+  <!-- 2. SCROLL DOWN: ANTHROPIC × CLAUDE CODE CONSOLE DASHBOARD -->
+  <section class="console-section" id="console-dashboard">
+    <div class="console-header">
+      <div>
+        <div class="console-eyebrow">
+          <span>✻</span>
+          <span>claude-code // nps-promoter-console</span>
+        </div>
+        <h1 class="console-title">NPS Promoter 每日认可控制台</h1>
+        <p class="console-subtitle">输入同事姓名自动检索 Memoji 头像，海报将根据人数自动居中放大或均衡排布。</p>
+      </div>
+
+      <div class="console-actions-bar">
+        <button type="button" class="btn-anthro" id="btn-scroll-top">↑ 回到 16:9 画面</button>
+        <button type="button" class="btn-anthro" id="btn-fullscreen">⛶ 全屏展示海报</button>
+        <button type="button" class="btn-anthro btn-anthro-primary" id="btn-export-png">↓ 导出 16:9 高清海报 (PNG)</button>
+      </div>
+    </div>
+
+    <div class="console-grid">
+      <div class="cc-terminal-card">
+        <div class="cc-topbar">
+          <div class="cc-topbar-left">
+            <span class="cc-starburst">✻</span>
+            <span>promoter-roster.sh</span>
+          </div>
+          <div class="cc-status-pills">
+            <span class="cc-pill" id="cc-count-pill">promoters: 0</span>
+            <span class="cc-pill" id="cc-vault-pill">memoji-vault: 0</span>
+            <span class="cc-pill">16:9 auto-fit</span>
+          </div>
+        </div>
+
+        <div class="cc-body">
+          <div class="cc-prompt-wrapper">
+            <div class="cc-field-label">
+              <span>ADD COLLEAGUE (支持逗号分隔多人 · 自动检索 Memoji 库)</span>
+              <span>⏎ Enter 添加</span>
+            </div>
+            <div class="cc-prompt-box">
+              <span class="cc-chevron">❯</span>
+              <input
+                type="text"
+                id="colleague-input"
+                class="cc-input"
+                placeholder="输入同事名字，如 Alex 或 Alex, Chloe, Leo..."
+                autocomplete="off"
+              />
+              <span class="cc-live-match-chip" id="live-match-chip">
+                <img id="live-match-img" src="" alt="" />
+                <span id="live-match-text">已匹配</span>
+              </span>
+              <button type="button" class="cc-enter-btn" id="add-colleague-btn">添加 ⏎</button>
+            </div>
+            <div class="cc-autocomplete" id="cc-autocomplete"></div>
+          </div>
+
+          <div>
+            <div class="cc-field-label">
+              <span>TODAY'S NPS PROMOTERS (点击头像可单独上传/替换 Memoji)</span>
+              <span id="layout-mode-indicator">layout: solo-hero</span>
+            </div>
+            <div class="cc-roster-list" id="cc-roster-list"></div>
+          </div>
+
+          <div class="cc-presets-bar">
+            <span class="cc-preset-label">快速预览人数排布:</span>
+            <button type="button" class="cc-preset-chip" data-demo="1">1人居中放大</button>
+            <button type="button" class="cc-preset-chip" data-demo="2">2人双星均衡</button>
+            <button type="button" class="cc-preset-chip" data-demo="3">3人自然分散</button>
+            <button type="button" class="cc-preset-chip" data-demo="5">5人双排错落</button>
+            <button type="button" class="cc-preset-chip" data-demo="clear">清空列表</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="anthro-side-stack">
+        <div class="anthro-panel">
+          <div class="panel-heading">日期与包豪斯海报风格</div>
+          <p class="panel-desc">保持海报极简克制，仅呈现日期、NPS Promoter 标识、头像与同事名字。</p>
+
+          <div class="form-group">
+            <label class="form-label" for="date-picker">认可日期 (DATE)</label>
+            <div class="date-control-row">
+              <input type="date" id="date-picker" class="anthro-input" />
+              <button type="button" class="mini-chip-btn" id="btn-date-today">今天</button>
+              <button type="button" class="mini-chip-btn" id="btn-date-yesterday">昨天</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="date-format-select">日期显示格式</label>
+            <select id="date-format-select" class="anthro-select">
+              <option value="dot">2026.11.17 (包豪斯几何点分)</option>
+              <option value="en">NOV 17 · 2026 (英文刊头风格)</option>
+              <option value="slash">2026 / 11 / 17 (斜杠极简)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">海报配色主题 (BAUHAUS PALETTE)</label>
+            <div class="segmented-row" id="theme-selector">
+              <button type="button" class="seg-btn active" data-theme-val="bright">明快原色</button>
+              <button type="button" class="seg-btn" data-theme-val="sunlit">清亮晴空</button>
+              <button type="button" class="seg-btn" data-theme-val="studio">暖阳几何</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">头像框呈现方式</label>
+            <div class="segmented-row two-col" id="crop-selector">
+              <button type="button" class="seg-btn active" data-crop-val="sticker">透明贴纸立体风</button>
+              <button type="button" class="seg-btn" data-crop-val="circle">几何圆章裁切</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">海报主标识字样</label>
+            <div class="segmented-row" id="badge-selector">
+              <button type="button" class="seg-btn active" data-badge-val="auto">智能单复数</button>
+              <button type="button" class="seg-btn" data-badge-val="singular">NPS PROMOTER</button>
+              <button type="button" class="seg-btn" data-badge-val="promote">NPS PROMOTE</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="anthro-panel">
+          <div class="panel-heading">
+            <span>Memoji 头像素材库</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--anthro-clay);" id="vault-count-label">0 已存</span>
+          </div>
+          <p class="panel-desc">
+            稍后补充素材时，直接将命名为 <code>姓名.png</code> 的 Memoji 批量拖入下方（自动永久保存在浏览器本地），或放在同目录 <code>memojis/姓名.png</code> 文件夹中，输入姓名即可自动匹配。
+          </p>
+
+          <div class="vault-dropzone" id="vault-dropzone">
+            <div class="vault-dropzone-title">+ 批量拖入或点击上传同事 Memoji</div>
+            <div class="vault-dropzone-hint">支持 PNG / WEBP / JPG · 文件名即同事名字 (如 Fay.png → Fay)</div>
+            <input type="file" id="vault-file-input" accept="image/*" multiple hidden />
+          </div>
+
+          <div class="vault-grid" id="vault-grid"></div>
+
+          <div class="vault-footer-tools">
+            <span>点击词条可快速加入今日海报</span>
+            <div style="display: flex; gap: 12px;">
+              <button type="button" class="vault-link-btn" id="btn-export-vault">备份素材库(.json)</button>
+              <button type="button" class="vault-link-btn" id="btn-import-vault">恢复备份</button>
+              <input type="file" id="vault-json-input" accept="application/json" hidden />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <input type="file" id="single-avatar-input" accept="image/*" hidden />
+  <div class="toast-banner" id="toast-banner"></div>
+
+  <script src="./src/js/memoji-placeholder.js"></script>
+  <script src="./src/js/vault-storage.js"></script>
+  <script src="./src/js/layout-engine.js"></script>
+  <script src="./src/js/exporter-canvas.js"></script>
+  <script src="./src/js/app.js"></script>
+</body>
+</html>
